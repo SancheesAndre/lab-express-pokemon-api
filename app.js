@@ -1,5 +1,5 @@
 const express = require("express");
-const bodyParser = require("body-parser")
+
 
 const PORT = 4000;
 
@@ -8,7 +8,8 @@ const allPokemon = require("./data");
 const { application } = require("express");
 
 const app = express();
-app.use(bodyParser.json())
+app.use(express.json())
+
 
 // -- Define your route listeners here! --
 
@@ -44,6 +45,21 @@ app.get('/search', (req, res) => {
     }
 })
 
+app.post('/pokemon', (req, res) => {
+    let body = req.body
+    allPokemon.push(body)
+    res.send(body)
+})
 
+app.put('/pokemon/:id', (req, res) => {
+    const { id } = req.params
+    let body = req.body
+    res.send(allPokemon[id] = body)
+})
+
+app.delete('/pokemon/:id', (req, res) => {
+    const { id } = req.params
+    res.send(allPokemon[id])
+})
 
 app.listen(PORT, () => console.log(`Server up and running at port ${PORT}`));
