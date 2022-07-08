@@ -11,23 +11,38 @@ const app = express();
 app.use(bodyParser.json())
 
 // -- Define your route listeners here! --
+
 app.get('/pokemon', (req, res) => {
     console.log(req)
     res.send(allPokemon)
 })
 
 app.get('/pokemon/:id', (req, res) => {
-    const {id} = req.params
+    const { id } = req.params
     res.send(allPokemon[id])
 })
 
 
 app.get('/search', (req, res) => {
-    const name = req.query["name"]
-    const foundPoke = allPokemon.find(poke => poke.name === name)
-    res.send(foundPoke)    
-})
+    const pokeName = req.query["name"]
+    const pokeType = req.query["type"]
 
+    const foundPoke = allPokemon.find(poke => poke.name === pokeName)
+    let pokesArray = []
+
+    allPokemon.map(poke => {
+        if (poke.types.includes(pokeType)) {
+            pokesArray.push(poke)
+            return pokesArray
+        }
+    })
+
+    if (pokeName === undefined) {
+        res.send(pokesArray)
+    } else if (pokeType === undefined) {
+        res.send(foundPoke)
+    }
+})
 
 
 
