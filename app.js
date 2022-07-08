@@ -21,9 +21,14 @@ app.get('/pokemon/:id', (req, res) => {
     res.send(allPokemon[id])
 })
 
-// app.get(`/search`, (req, res) => {
-//     res.send(allPokemon)
-// })
+
+app.get('/search', (req, res) => {
+    const name = req.query["name"]
+    const foundPoke = allPokemon.find(poke => poke.name === name)
+    res.send(foundPoke)    
+})
+
+
 
 
 app.listen(PORT, () => console.log(`Server up and running at port ${PORT}`));
